@@ -110,9 +110,8 @@ end
 J_vals = J_vals';
 % Surface plot
 figure;
-surf(theta0_vals, theta1_vals, J_vals)
+surf(theta0_vals, theta1_vals, J_vals);
 xlabel('\theta_0'); ylabel('\theta_1');
-
 % Contour plot
 figure;
 % Plot J_vals as 15 contours spaced logarithmically between 0.01 and 100

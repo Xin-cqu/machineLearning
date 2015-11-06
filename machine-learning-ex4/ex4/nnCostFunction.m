@@ -24,6 +24,7 @@ Theta2 = reshape(nn_params((1 + (hidden_layer_size * (input_layer_size + 1))):en
 
 % Setup some useful variables
 m = size(X, 1);
+X=[ones(m,1),X];
          
 % You need to return the following variables correctly 
 J = 0;
@@ -61,12 +62,26 @@ Theta2_grad = zeros(size(Theta2));
 %               the regularization separately and then add them to Theta1_grad
 %               and Theta2_grad from Part 2.
 %
+z2=X*Theta1';
+a2=sigmoid(z2);
+z3=([ones(size(a2,1),1),a2]*Theta2');
+a3=sigmoid(z3);
+y_new = zeros(size(y,1), num_labels);
+% transform y into feature vectors
+for i = 1: num_labels
+    y_new(:, i) = (y ==i);
+end
+%calculate J
+J=mean(sum((-y_new.*log(a3)-(ones(m,size(a3,2))-y_new).*log(ones(m,num_labels)-a3)),2))...
+	+lambda/(2*m)*(sum(sum(Theta1(:,2:end).^2))+sum(sum(Theta2(:,2:end).^2)));
 
 
+Delta3=a3-y_new;
+Delta2=(Delta3*Theta2).*sigmoidGradient([ones(size(z2,1),1),z2]);
 
 
-
-
+Theta2_grad=(1/m.*([ones(m,1),a2]'*Delta3))'+lambda/m.* [zeros(size(Theta2,1),1),Theta2(:,2:end)];
+Theta1_grad=(1/m.*(X'*Delta2(:,2:end)))'+lambda/m.* [zeros(size(Theta1,1),1),Theta1(:,2:end)];
 
 
 
