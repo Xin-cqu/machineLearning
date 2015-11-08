@@ -52,7 +52,16 @@ error_val   = zeros(m, 1);
 %
 
 % ---------------------- Sample Solution ----------------------
-
+%init_theta=trainLinearReg(X,y,lambda);
+for i=1:m
+	init_theta=trainLinearReg(X(1:i,:),y(1:i),lambda);
+	h=X(1:i,:)*init_theta;
+	hval=Xval*init_theta;
+	error_train(i)=mean((h-y(1:i)).^2)/2;
+	error_val(i)=mean((hval-yval).^2/2);
+	%error_train(i)=linearRegCostFunction(X(1:i,:),y(1:i),init_theta,0);
+	%error_val(i)=linearRegCostFunction(Xval,yval,init_theta,0);
+end
 
 
 
