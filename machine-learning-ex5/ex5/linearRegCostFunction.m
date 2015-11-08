@@ -18,6 +18,13 @@ grad = zeros(size(theta));
 %
 %               You should set J to the cost and grad to the gradient.
 %
+% add bias for theta0
+%X=[ones(m,1),X];
+zeroMatrix=zeros(size(theta));
+%compute J in cost function which need vectorization
+h=X*theta;
+J=mean((h-y).^2)/2+lambda/(2*m)*sum(theta(2:end,:).^2);
+grad=(X'*(h-y))/m+lambda/m * ([0;theta(2:end)]);
 
 
 
